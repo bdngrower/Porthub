@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@theme {
+  --font-syne: "Syne", sans-serif;
+  --font-jakarta: "Plus Jakarta Sans", sans-serif;
+  --color-brand-accent: #2563eb;
+}
+
+@layer utilities {
+  .glass-capsule {
+    @apply bg-[#081016]/85 backdrop-blur-[16px] border border-[#2563eb]/20;
+  }
+  .glass-btn {
+    @apply bg-black/65 backdrop-blur-[12px] border border-white/15;
+  }
+  .scroll-wheel {
+    animation: scrollWheel 2s infinite;
+  }
+}
+
+@keyframes scrollWheel {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(12px); opacity: 0; }
+}
