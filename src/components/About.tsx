@@ -1,13 +1,12 @@
 import { motion } from 'motion/react';
 import { Target, Cpu } from 'lucide-react';
-import TechOrbit from './TechOrbit';
 
 export default function About() {
   return (
     <section id="about" className="relative w-full py-32 bg-[#04080c] z-40 overflow-hidden">
       {/* Background ambient glow */}
       <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/5 blur-[120px] rounded-full pointer-events-none" />
-
+      
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         <div className="flex flex-col lg:flex-row gap-20 items-center">
           
@@ -56,22 +55,22 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.4, duration: 0.6 }}
-              className="flex gap-12 border-t border-white/10 pt-8"
+              className="flex flex-col sm:flex-row gap-6 sm:gap-12 border-t border-white/10 pt-8"
             >
               <div className="group cursor-default">
                 <div className="flex items-center gap-3 mb-2">
-                  <Cpu className="text-blue-500 w-5 h-5 group-hover:rotate-12 transition-transform" />
-                  <h4 className="text-2xl font-syne font-bold text-white">Engenharia</h4>
+                  <Cpu className="text-blue-500 w-5 h-5 shrink-0 group-hover:rotate-12 transition-transform" />
+                  <h4 className="text-xl md:text-2xl font-syne font-bold text-white">Engenharia</h4>
                 </div>
                 <p className="text-slate-500 text-sm font-medium tracking-wide">DESIGN & BUILD</p>
               </div>
               
-              <div className="w-px bg-white/10" />
-
+              <div className="w-full h-px sm:w-px sm:h-auto bg-white/10" />
+              
               <div className="group cursor-default">
                 <div className="flex items-center gap-3 mb-2">
-                  <Target className="text-brand-accent w-5 h-5 group-hover:scale-110 transition-transform" />
-                  <h4 className="text-2xl font-syne font-bold text-white">Estratégia</h4>
+                  <Target className="text-brand-accent w-5 h-5 shrink-0 group-hover:scale-110 transition-transform" />
+                  <h4 className="text-xl md:text-2xl font-syne font-bold text-white">Estratégia</h4>
                 </div>
                 <p className="text-slate-500 text-sm font-medium tracking-wide">DEPLOY & SCALE</p>
               </div>
@@ -81,34 +80,45 @@ export default function About() {
           {/* Visual/Motion Composition */}
           <div className="w-full lg:w-1/2 relative h-[500px] md:h-[600px] flex items-center justify-center">
             
-            <TechOrbit />
-            
-            {/* Floating Glass Badge */}
+            {/* Background ambient glow specifically for the video */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-blue-600/10 blur-[80px] rounded-full pointer-events-none" />
+
+            {/* Laser Border Wrapper */}
             <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.6, duration: 0.8 }}
-              animate={{ y: [0, -10, 0] }}
-              style={{
-                animation: "float-delayed 7s ease-in-out infinite"
-              }}
-              className="absolute bottom-12 -right-4 md:bottom-20 md:-right-8 z-20 glass-capsule px-6 py-4 flex items-center gap-4 border border-white/10 shadow-2xl backdrop-blur-xl"
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              className="relative w-[90%] md:w-[80%] aspect-[4/5] rounded-3xl overflow-hidden p-[2px] shadow-[0_0_50px_rgba(37,99,235,0.15)] group"
             >
-              <div className="w-12 h-12 rounded-full bg-blue-600/20 border border-blue-500/50 flex items-center justify-center shrink-0 relative">
-                <div className="absolute inset-0 rounded-full border border-blue-400 animate-ping opacity-20" />
-                <span className="w-2.5 h-2.5 bg-blue-400 rounded-full animate-pulse shadow-[0_0_10px_#60a5fa]" />
-              </div>
-              <div>
-                <p className="text-white font-syne font-bold text-lg leading-tight">Inovação</p>
-                <p className="text-brand-accent text-xs font-bold uppercase tracking-widest mt-0.5">Orientada a Dados</p>
+              {/* Spinning Laser Gradient Effect */}
+              <motion.div 
+                animate={{ rotate: 360 }}
+                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-[-50%] z-0"
+                style={{
+                  background: 'conic-gradient(from 0deg, transparent 70%, #06b6d4 85%, #3b82f6 100%)'
+                }}
+              />
+              
+              {/* Inner container to mask video and provide background */}
+              <div className="absolute inset-[2px] bg-[#04080c] rounded-[22px] overflow-hidden z-10 flex items-center justify-center">
+                 <video 
+                   src="/Video.mp4" 
+                   autoPlay 
+                   loop 
+                   muted 
+                   playsInline 
+                   className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-700"
+                 />
+                 {/* Subtle overlay to blend it in */}
+                 <div className="absolute inset-0 bg-blue-900/10 mix-blend-screen pointer-events-none" />
               </div>
             </motion.div>
           </div>
-
         </div>
       </div>
-
+      
       <style>{`
         @keyframes float {
           0%, 100% { transform: translateY(-15px); }

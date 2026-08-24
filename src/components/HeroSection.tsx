@@ -57,29 +57,24 @@ export default function HeroSection() {
     const handleOrientation = (e: DeviceOrientationEvent) => {
       if (e.gamma === null || e.beta === null) return;
       
-      // gamma (left-to-right): typically -90 to 90
       let gamma = e.gamma;
-      // beta (front-to-back): typically -180 to 180
       let beta = e.beta;
 
-      // Constrain for comfortable holding angles
+      // Constrain gamma (-45 to 45 degrees left/right)
       if (gamma > 45) gamma = 45;
       if (gamma < -45) gamma = -45;
       
-      // Beta (0 is flat, 90 is upright)
-      if (beta > 90) beta = 90;
-      if (beta < 0) beta = 0;
+      // Constrain beta (assume holding phone between 20 deg and 80 deg)
+      if (beta > 80) beta = 80;
+      if (beta < 20) beta = 20;
 
-      // Map to screen coordinates
+      // Map to screen coordinates smoothly
       const xPos = ((gamma + 45) / 90) * window.innerWidth;
-      const yPos = (beta / 90) * window.innerHeight;
+      const yPos = ((beta - 20) / 60) * window.innerHeight;
 
       coords.current.targetX = xPos;
       coords.current.targetY = yPos;
       coords.current.isHovered = true;
-
-      // Reset hover state after a moment of no movement to resume idle if needed,
-      // or just let the gyro continuously update it.
     };
 
     window.addEventListener('deviceorientation', handleOrientation);
@@ -89,6 +84,19 @@ export default function HeroSection() {
       window.removeEventListener('deviceorientation', handleOrientation);
     };
   }, []);
+
+  const requestGyroPermission = () => {
+    // Request permission for iOS 13+ devices
+    if (typeof (DeviceOrientationEvent as any) !== 'undefined' && typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
+      (DeviceOrientationEvent as any).requestPermission()
+        .then((response: string) => {
+          if (response === 'granted') {
+             // Listener is already attached in useEffect, it will start receiving events
+          }
+        })
+        .catch(console.error);
+    }
+  };
 
   const handleMouseMove = (e: MouseEvent) => {
     // We use clientX/clientY which are viewport-relative. 
@@ -110,6 +118,15 @@ export default function HeroSection() {
     }
   };
 
+  const handleTouchStart = (e: TouchEvent) => {
+    requestGyroPermission();
+    if (e.touches.length > 0) {
+      coords.current.targetX = e.touches[0].clientX;
+      coords.current.targetY = e.touches[0].clientY;
+      coords.current.isHovered = true;
+    }
+  };
+
   const handleTouchEnd = () => {
     coords.current.isHovered = false;
   };
@@ -121,7 +138,9 @@ export default function HeroSection() {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onTouchMove={handleTouchMove}
+      onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      onClick={requestGyroPermission}
     >
       {/* Base Statue Layer */}
       <div className="absolute inset-0 z-0 bg-black">
