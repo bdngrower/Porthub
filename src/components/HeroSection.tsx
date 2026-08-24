@@ -53,7 +53,41 @@ export default function HeroSection() {
     };
 
     animate();
-    return () => cancelAnimationFrame(animationFrameId);
+
+    const handleOrientation = (e: DeviceOrientationEvent) => {
+      if (e.gamma === null || e.beta === null) return;
+      
+      // gamma (left-to-right): typically -90 to 90
+      let gamma = e.gamma;
+      // beta (front-to-back): typically -180 to 180
+      let beta = e.beta;
+
+      // Constrain for comfortable holding angles
+      if (gamma > 45) gamma = 45;
+      if (gamma < -45) gamma = -45;
+      
+      // Beta (0 is flat, 90 is upright)
+      if (beta > 90) beta = 90;
+      if (beta < 0) beta = 0;
+
+      // Map to screen coordinates
+      const xPos = ((gamma + 45) / 90) * window.innerWidth;
+      const yPos = (beta / 90) * window.innerHeight;
+
+      coords.current.targetX = xPos;
+      coords.current.targetY = yPos;
+      coords.current.isHovered = true;
+
+      // Reset hover state after a moment of no movement to resume idle if needed,
+      // or just let the gyro continuously update it.
+    };
+
+    window.addEventListener('deviceorientation', handleOrientation);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('deviceorientation', handleOrientation);
+    };
   }, []);
 
   const handleMouseMove = (e: MouseEvent) => {
@@ -76,6 +110,10 @@ export default function HeroSection() {
     }
   };
 
+  const handleTouchEnd = () => {
+    coords.current.isHovered = false;
+  };
+
   return (
     <section
       id="home"
@@ -83,6 +121,7 @@ export default function HeroSection() {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       {/* Base Statue Layer */}
       <div className="absolute inset-0 z-0 bg-black">
