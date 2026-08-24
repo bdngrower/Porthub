@@ -1,19 +1,22 @@
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { motion } from 'motion/react';
 import { portfolioProjects } from '../data/portfolio';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function ProjectDetail() {
   const { slug } = useParams();
   const project = portfolioProjects.find(p => p.slug === slug);
   const nextProject = project?.nextProject ? portfolioProjects.find(p => p.slug === project.nextProject) : null;
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoError, setVideoError] = useState(false);
 
   // Scroll to top on mount and when slug changes
   useEffect(() => {
     window.scrollTo(0, 0);
+    setVideoError(false);
   }, [slug]);
 
   // Pause video when out of viewport
@@ -48,7 +51,13 @@ export default function ProjectDetail() {
   }
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-black text-white selection:bg-brand-accent selection:text-black font-jakarta">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="relative min-h-screen flex flex-col bg-black text-white selection:bg-brand-accent selection:text-black font-jakarta"
+    >
       <div className="px-6 md:px-12 lg:px-16 py-6 absolute top-0 w-full z-50 flex items-center justify-between pointer-events-auto">
         <Navigation />
       </div>
@@ -100,7 +109,7 @@ export default function ProjectDetail() {
           {/* Subtle glow behind preview */}
           <div className="absolute inset-0 bg-blue-500/20 blur-[100px] -z-10 rounded-[2rem] opacity-50" />
           
-          {project.previewVideo ? (
+          {project.previewVideo && !videoError ? (
             <video 
               ref={videoRef}
               src={project.previewVideo} 
@@ -108,8 +117,10 @@ export default function ProjectDetail() {
               muted 
               loop 
               playsInline 
+              preload="metadata"
               className="w-full h-full object-cover"
               poster={project.image}
+              onError={() => setVideoError(true)}
             />
           ) : (
             <img 
@@ -220,6 +231,6 @@ export default function ProjectDetail() {
       <div className="px-6 md:px-12 lg:px-16 py-6 border-t border-white/5 bg-[#020408]">
         <Footer />
       </div>
-    </div>
+    </motion.div>
   );
 }

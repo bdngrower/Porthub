@@ -91,8 +91,8 @@ export default function HeroSection() {
           alt="Base Statue"
           className="w-full h-full object-contain object-center md:object-contain md:object-[right_center] -translate-y-4 md:-translate-y-8 opacity-40 md:opacity-50 select-none pointer-events-none"
           style={{
-            maskImage: 'linear-gradient(to right, transparent 0%, black 25%, black 100%)',
-            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 25%, black 100%)'
+            maskImage: 'linear-gradient(to right, transparent 0%, transparent 30%, black 60%, black 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, transparent 30%, black 60%, black 100%)'
           }}
         />
       </div>
@@ -118,10 +118,10 @@ export default function HeroSection() {
           className="w-full h-full object-contain object-center md:object-contain md:object-[right_center] -translate-y-4 md:-translate-y-8 select-none"
           style={{
             // Hue-rotate 210deg shifts into a deeper blue spectrum.
-            filter: 'sepia(1) hue-rotate(210deg) saturate(200%) brightness(0.9) contrast(1.5) drop-shadow(0 0 25px #2563eb)',
+            filter: 'sepia(1) hue-rotate(210deg) saturate(200%) brightness(0.9) contrast(1.5)',
             mixBlendMode: 'plus-lighter',
-            maskImage: 'linear-gradient(to right, transparent 0%, black 25%, black 100%)',
-            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 25%, black 100%)'
+            maskImage: 'linear-gradient(to right, transparent 0%, transparent 30%, black 60%, black 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, transparent 30%, black 60%, black 100%)'
           }}
         />
       </div>

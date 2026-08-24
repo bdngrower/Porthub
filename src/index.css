@@ -6,6 +6,12 @@
   --color-brand-accent: #2563eb;
 }
 
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 @layer utilities {
   .glass-capsule {
     @apply bg-[#081016]/85 backdrop-blur-[16px] border border-[#2563eb]/20;

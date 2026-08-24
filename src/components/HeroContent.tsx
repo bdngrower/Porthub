@@ -31,12 +31,12 @@ export default function HeroContent() {
 
       {/* Actions */}
       <div className="flex flex-wrap gap-4">
-        <a href="#portfolio" className="bg-blue-600 hover:bg-blue-500 text-white rounded-full pl-6 pr-2 py-2 flex items-center group font-bold shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all">
+        <Link to="/#portfolio" className="bg-blue-600 hover:bg-blue-500 text-white rounded-full pl-6 pr-2 py-2 flex items-center group font-bold shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all">
           Ver Projetos
           <div className="w-8 h-8 rounded-full bg-white text-blue-600 ml-4 flex items-center justify-center group-hover:translate-x-1 transition-transform duration-300">
             <ArrowRight size={16} />
           </div>
-        </a>
+        </Link>
       </div>
     </motion.div>
   );

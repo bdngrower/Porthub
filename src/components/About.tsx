@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { Target, Cpu } from 'lucide-react';
+import TechOrbit from './TechOrbit';
 
 export default function About() {
   return (
@@ -80,41 +81,8 @@ export default function About() {
           {/* Visual/Motion Composition */}
           <div className="w-full lg:w-1/2 relative h-[500px] md:h-[600px] flex items-center justify-center">
             
-            {/* Decorative Orbit/Wireframe */}
-            <motion.div 
-              animate={{ rotate: 360 }}
-              transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-              className="absolute inset-4 md:inset-12 border border-white/5 rounded-full border-dashed z-0 opacity-50"
-            />
+            <TechOrbit />
             
-            <motion.div 
-              animate={{ rotate: -360 }}
-              transition={{ duration: 70, repeat: Infinity, ease: "linear" }}
-              className="absolute inset-12 md:inset-24 border border-blue-500/10 rounded-full z-0 opacity-30"
-            />
-
-            {/* Main Floating Image */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              animate={{ y: [-15, 15, -15] }}
-              style={{
-                animation: "float 6s ease-in-out infinite"
-              }}
-              className="relative z-10 w-4/5 md:w-3/4 aspect-[4/5] rounded-3xl overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(37,99,235,0.15)] group"
-            >
-              <div className="absolute inset-0 bg-blue-900/30 mix-blend-multiply group-hover:bg-transparent transition-colors duration-700 z-10" />
-              <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10 pointer-events-none" />
-              
-              <img 
-                src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1000" 
-                alt="ZIM HUB Philosophy" 
-                className="w-full h-full object-cover grayscale-[70%] group-hover:grayscale-0 transition-all duration-1000 transform group-hover:scale-110"
-              />
-            </motion.div>
-
             {/* Floating Glass Badge */}
             <motion.div 
               initial={{ opacity: 0, x: 20 }}
